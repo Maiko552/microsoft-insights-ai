@@ -1,6 +1,7 @@
 package br.com.maikonspo.microsoftAI.presentation.api.rest;
 
 import br.com.maikonspo.microsoftAI.application.dto.UserMeResponse;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
@@ -20,17 +21,19 @@ public class LoginController {
     }
 
     @GetMapping("/me")
-    public Object me(@RegisteredOAuth2AuthorizedClient("azure") OAuth2AuthorizedClient client) {
+    public UserMeResponse me(@RegisteredOAuth2AuthorizedClient("azure") OAuth2AuthorizedClient client) {
         String token = client.getAccessToken().getTokenValue();
-        var me = graph.get()
+
+        Map<String, Object> me = graph.get()
                 .uri("/me")
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                 .retrieve()
-                .body(Map.class);
-        return new UserMeResponse(
-                (String) me.get("id"),
-                (String) me.get("displayName"),
-                (String) me.get("mail")
-        );
+                .body(new ParameterizedTypeReference<>() {});
+        
+        String id = (String) (me != null ? me.getOrDefault("id", "") : null);
+        String displayName = (String) (me != null ? me.getOrDefault("displayName", "") : null);
+        String mail = (String) (me != null ? me.getOrDefault("mail", me.getOrDefault("userPrincipalName", "")) : null);
+
+        return new UserMeResponse(id, displayName, mail);
     }
 }
