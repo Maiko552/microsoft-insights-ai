@@ -43,6 +43,16 @@ spring:
             jwk-set-uri: "https://login.microsoftonline.com/${AAD_TENANT_ID}/discovery/v2.0/keys"
             user-info-uri: "https://graph.microsoft.com/oidc/userinfo"
             user-name-attribute: name
+
+      resourceserver:
+        jwt:
+          issuer-uri: "https://login.microsoftonline.com/${AAD_TENANT_ID}/v2.0"
+
+
+app:
+  security:
+    expected-audience: "api://84917c93-a6b1-4ded-bea2-5efa1e6a6476"
+
 flyway:
   enabled: true
   locations: classpath:db/migration
