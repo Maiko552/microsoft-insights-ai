@@ -1,4 +1,4 @@
-package br.com.maikonspo.microsoftAI.presentation.api.rest;
+package br.com.maikonspo.microsoftAI.presentation.api.web;
 
 import br.com.maikonspo.microsoftAI.application.dto.UserMeResponse;
 import org.springframework.core.ParameterizedTypeReference;

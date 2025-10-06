@@ -51,7 +51,7 @@ spring:
 
 app:
   security:
-    expected-audience: "api://84917c93-a6b1-4ded-bea2-5efa1e6a6476"
+    expected-audience: "84917c93-a6b1-4ded-bea2-5efa1e6a6476"
 
 flyway:
   enabled: true
